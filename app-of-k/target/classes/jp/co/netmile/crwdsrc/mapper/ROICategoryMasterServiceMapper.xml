@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.netmile.crwdsrc.mapper.ROICategoryMasterServiceMapper">
+	
+	<resultMap id="CategoryResult" type="jp.co.netmile.crwdsrc.dto.Category">
+		<id property="id" column="CATEGORY_ID"/>
+		<result property="name" column="CATEGORY_NAME"/>
+	</resultMap>
+	
+	<select id="getAllCategory" resultMap="CategoryResult">
+		select 
+			CATEGORY_ID, 
+			CATEGORY_NAME
+		from 
+			ROI_CATEGORY_MASTER
+	</select>
+	
+	<insert id="insert" parameterType="jp.co.netmile.crwdsrc.dto.Category">
+		INSERT INTO ROI_CATEGORY_MASTER
+		(
+		CATEGORY_ID, 
+		CATEGORY_NAME,
+		CREATED_BY,
+		CREATION_DATE,
+		LAST_UPDATED_BY,
+		LAST_UPDATE_DATE
+		)
+		VALUES(
+		#{id jdbcType=NUMERIC}, 
+		#{name jdbcType=VARCHAR},
+		#{createdBy jdbcType=NUMERIC},
+		SYSDATE,
+		#{lastUpdateBy jdbcType=NUMERIC},
+		SYSDATE
+		)
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM ROI_CATEGORY_MASTER
+	</delete>
+	
+</mapper>

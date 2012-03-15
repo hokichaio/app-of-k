@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.netmile.crwdsrc.mapper.ROIAreaMasterServiceMapper">
+	
+	<resultMap id="AreaResult" type="jp.co.netmile.crwdsrc.dto.Area">
+		<id property="id" column="AREA_ID"/>
+		<result property="name" column="AREA_NAME"/>
+		<result property="prefectureId" column="PREFECTURE_ID"/>
+	</resultMap>
+	
+	<select id="getAllArea" resultMap="AreaResult">
+		select 
+			AREA_ID, 
+			AREA_NAME,
+			PREFECTURE_ID 
+		from 
+			ROI_AREA_MASTER
+	</select>
+	
+	<insert id="insert" parameterType="jp.co.netmile.crwdsrc.dto.Area">
+		INSERT INTO ROI_AREA_MASTER
+		(
+		AREA_ID, 
+		AREA_NAME,
+		PREFECTURE_ID,
+		CREATED_BY,
+		CREATION_DATE,
+		LAST_UPDATED_BY,
+		LAST_UPDATE_DATE
+		)
+		VALUES(
+		#{id jdbcType=NUMERIC}, 
+		#{name jdbcType=VARCHAR},
+		#{prefectureId jdbcType=NUMERIC},
+		#{createdBy jdbcType=NUMERIC},
+		SYSDATE,
+		#{lastUpdateBy jdbcType=NUMERIC},
+		SYSDATE
+		)
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM ROI_AREA_MASTER
+	</delete>
+	
+</mapper>

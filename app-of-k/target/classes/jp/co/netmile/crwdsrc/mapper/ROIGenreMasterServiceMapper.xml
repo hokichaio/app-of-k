@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.netmile.crwdsrc.mapper.ROIGenreMasterServiceMapper">
+	
+	<resultMap id="GenreResult" type="jp.co.netmile.crwdsrc.dto.Genre">
+		<id property="id" column="GENRE_ID"/>
+		<result property="name" column="GENRE_NAME"/>
+		<result property="categoryId" column="CATEGORY_ID"/>
+	</resultMap>
+	
+	<select id="getAllGenre" resultMap="GenreResult">
+		select 
+			GENRE_ID, 
+			GENRE_NAME,
+			CATEGORY_ID 
+		from 
+			ROI_GENRE_MASTER
+	</select>
+	
+	<insert id="insert" parameterType="jp.co.netmile.crwdsrc.dto.Genre">
+		INSERT INTO ROI_GENRE_MASTER
+		(
+		GENRE_ID, 
+		GENRE_NAME,
+		CATEGORY_ID,
+		CREATED_BY,
+		CREATION_DATE,
+		LAST_UPDATED_BY,
+		LAST_UPDATE_DATE
+		)
+		VALUES(
+		#{id jdbcType=NUMERIC}, 
+		#{name jdbcType=VARCHAR},
+		#{categoryId jdbcType=NUMERIC},
+		#{createdBy jdbcType=NUMERIC},
+		SYSDATE,
+		#{lastUpdateBy jdbcType=NUMERIC},
+		SYSDATE
+		)
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM ROI_GENRE_MASTER
+	</delete>
+	
+</mapper>
