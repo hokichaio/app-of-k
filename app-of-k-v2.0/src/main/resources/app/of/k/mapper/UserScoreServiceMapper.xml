@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.of.k.mapper.UserScoreServiceMapper">
+	
+	<resultMap id="UserScoreResult" type="app.of.k.dto.UserScore">
+		<result property="id" column="ID"/>
+		<result property="score" column="POINTS"/>
+		<result property="lastUpdatedDate" column="LAST_UPDATED_DATE"/>
+	</resultMap>
+	
+	<select id="sumHearts" resultType="Long">
+	SELECT SUM( points ) as POINTS FROM user_master
+	</select>
+	
+	<select id="getUser" parameterType="String" resultMap="UserScoreResult">
+		select 
+			ID,
+			POINTS,
+			LAST_UPDATED_DATE
+		from 
+			USER_MASTER
+		where
+			ID = #{id}
+	</select>
+	
+	<select id="getAllUser" resultMap="UserScoreResult">
+		select 
+			ID,
+			POINTS,
+			LAST_UPDATED_DATE
+		from 
+			USER_MASTER
+		order by
+			POINTS desc
+	</select>
+	
+	<insert id="insert" parameterType="app.of.k.dto.UserScore">
+		INSERT INTO USER_MASTER
+		(
+			ID,
+			POINTS,
+			LAST_UPDATED_DATE
+		)
+		VALUES
+		(
+			#{id},
+			#{score},
+			SYSDATE()
+		)
+	</insert>
+	
+	<update id="updateScore" parameterType="app.of.k.dto.UserScore">
+		update 	USER_MASTER set
+		POINTS=#{score}
+		where
+		id=#{id}
+	</update>
+	
+</mapper>
