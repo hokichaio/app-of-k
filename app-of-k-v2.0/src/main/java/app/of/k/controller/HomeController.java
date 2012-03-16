@@ -54,6 +54,7 @@ public class HomeController {
 		List<Friend> bdayList = new ArrayList<Friend>();
 		Calendar today = Calendar.getInstance();
 		int year = today.get(Calendar.YEAR);
+		long tomil = today.getTimeInMillis();
 		int i = 0;
 		for (FacebookProfile friend : friends) {
 			String data = friend.getBirthday();
@@ -61,10 +62,11 @@ public class HomeController {
 				data = data.substring(0, 5);
 				Calendar bday = Calendar.getInstance();
 				bday.setTime(sdf.parse(data + "/" + year));
-				
-				if(today.compareTo(bday) <= 100000 && today.compareTo(bday) >= -100000) {
-					i++;
-					log.info(i + friend.getName() + "," + bday);
+				long bmil = bday.getTimeInMillis();
+				long dif = tomil-bmil;
+				if(dif <= 1000000000 && dif >= -1000000000) {
+					
+					log.info(i + friend.getName() + dif);
 				}
 				
 
