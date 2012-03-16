@@ -16,19 +16,19 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<!--
+	
 	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://192.168.11.4/k"/>
+        <property name="url" value="jdbc:mysql://localhost/k"/>
         <property name="username" value="root"/>
         <property name="password" value="mongchaio"/>
     </bean>
-    -->
-    <!-- Embedded database for storing connections -->
+    
+    <!-- Embedded database for storing connections 
 	<jdbc:embedded-database id="dataSource" type="H2">
 		<jdbc:script location="classpath:/org/springframework/social/connect/jdbc/JdbcUsersConnectionRepository.sql" />
 	</jdbc:embedded-database>
-    
+    -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- MyBatisの設定ファイルの場所. TypeAliasを使いたいので読み込ませている. -->

@@ -15,7 +15,7 @@
 			Authorizing...
 		</div>
 		<form id="login" action="<c:url value="/signin/facebook" />" method="POST">
-		    <input type="hidden" name="scope" value="email,publish_stream,offline_access" />		    
+		    <input type="hidden" name="scope" value="email,publish_stream,offline_access,friends_birthday" />		    
 		</form>
 	</body>
 </html>

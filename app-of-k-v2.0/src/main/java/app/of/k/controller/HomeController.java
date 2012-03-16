@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,7 +42,18 @@ public class HomeController {
 	@RequestMapping(value = "/")
 	public ModelAndView home(Model model) {
 		
-
+		
+		List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles(0, Integer.MAX_VALUE);
+	
+		for(FacebookProfile friend : friends) {
+			String bday = friend.getBirthday();
+			if(bday != null) {
+				log.info(friend.getName() + "," + bday);
+			}
+			
+		}
+		
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("main/home");
 		return modelAndView;

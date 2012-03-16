@@ -47,7 +47,7 @@
 		<constructor-arg>
 			<bean class="app.of.k.social.SignIn" />
 		</constructor-arg>
-		<property name="postSignInUrl" value="http://apps.facebook.com/app-of-k" />
+		<property name="postSignInUrl" value="http://localhost:8080/bobo/" />
 	</bean>
 	
 </beans>
