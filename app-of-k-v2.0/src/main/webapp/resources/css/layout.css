@@ -1,0 +1,21 @@
+div#wrapper {
+	width:730px;
+	margin-left: auto;
+    margin-right: auto;
+}
+div.areaLeft {
+	width:200px;
+	float:left;
+	margin:0 15px 0 0;
+}
+div.areaRight {
+	width:500px;
+	float:left;
+	margin:0;
+}
+div.#footer {
+	clear: both;
+    width: 730px;
+}
+
+	
