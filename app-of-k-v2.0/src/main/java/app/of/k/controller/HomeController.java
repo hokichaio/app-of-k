@@ -1,5 +1,11 @@
 package app.of.k.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import app.of.k.dto.Friend;
 import app.of.k.dto.UserScore;
 import app.of.k.mapper.UserScoreServiceMapper;
 
@@ -40,17 +47,29 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/")
-	public ModelAndView home(Model model) {
-		
-		
+	public ModelAndView home(Model model) throws ParseException {
+
 		List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles(0, Integer.MAX_VALUE);
-	
-		for(FacebookProfile friend : friends) {
-			String bday = friend.getBirthday();
-			if(bday != null) {
-				log.info(friend.getName() + "," + bday);
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		List<Friend> bdayList = new ArrayList<Friend>();
+		Calendar today = Calendar.getInstance();
+		int year = today.get(Calendar.YEAR);
+		int i = 0;
+		for (FacebookProfile friend : friends) {
+			String data = friend.getBirthday();
+			if (data != null) {
+				data = data.substring(0, 5);
+				Calendar bday = Calendar.getInstance();
+				bday.setTime(sdf.parse(data + "/" + year));
+				
+				if(today.compareTo(bday) <= 100000 && today.compareTo(bday) >= -100000) {
+					i++;
+					log.info(i + friend.getName() + "," + bday);
+				}
+				
+
 			}
-			
+
 		}
 		
 		
