@@ -18,6 +18,7 @@
 		<script type='text/javascript' src='<%= request.getContextPath() %>/resources/bootstrap/js/bootstrap.min.js'></script>
 	</head>
 	<body>
+	<%@ include file="../com/header.jsp"%>	
 	<div class="container">
 	<h1>Welcome to nonstop</h1>
 	<ul class="nav nav-tabs">
@@ -31,75 +32,48 @@
 	<div class="tab-content">
 		<div class="tab-pane active" id="1">
 			<div class="row">
-			<%= form_tag({:controller =>'main', :action =>'login'}) do %>
 				<div class="span12">
 					<div style="width:100px; float:left;">
 						メールアドレス
 					</div>
-					<%= text_field_tag :email %>
 				</div>
 				<div class="span12">
 					<div style="width:100px; float:left;">
 						パスワード
 					</div>
-					<%= password_field_tag :password %>
 				</div>
 				<div class="span12" style="margin-top: 10px" >
-					<%= submit_tag value="登録する", :class=>"btn btn-primary"%>
 				</div>
-			<% end %>
 			</div>
 		</div>
 		<div class="tab-pane" id="2">
-			<%= form_for(@user_master) do |f| %>
-			<% if @user_master.errors.any? %>
-			<div class="alert alert-error">
-				<h2><%= pluralize(@user_master.errors.count, "error") %> prohibited this user_master from being saved:</h2>
-				<ul>
-					<% @user_master.errors.full_messages.each do |msg| %>
-					<li>
-						<%= msg %>
-					</li>
-					<% end %>
-				</ul>
-			</div>
-			<% end %>
 			<div class="row">
 				<div class="span12">
 					<div style="width:100px; float:left;">
 						ハンドルネーム
 					</div>
-					<%= f.text_field :name, :style=>"width:200px;" %>
 				</div>
 				<div class="span12">
 					<div style="width:100px; float:left;">
 						メールアドレス
 					</div>
-					<%= f.text_field :email, :style=>"width:200px;" %>
 				</div>
 				<div class="span12">
 					<div style="width:100px; float:left;">
 						パスワード
 					</div>
-					<%= f.password_field :password, :style=>"width:200px;" %>
 				</div>
 				<div class="span12">
 					<div style="width:100px; float:left;">
 						生年月日
 					</div>
-					<%= f.date_select :birthdate, {:start_year=>Time.now.year - 100, :end_year=>Time.now.year, :use_month_numbers=>true}, :style=>"width:70px;"%>
 				</div>
 				<div class="span12">
 					<div style="width:100px; float:left;">
 						性別
 					</div>
-					<%= f.radio_button :sex, 0 %>男性 <%= f.radio_button :sex, 1 %>女性
-				</div>
-				<div class="span12" style="margin-top: 10px" >
-					<%= f.submit value="登録する", :class=>"btn btn-primary"%>
 				</div>
 			</div>
-			<% end %>
 		</div>
 	</div>
 </div>

@@ -30,17 +30,18 @@ final public class AuthInterceptor extends HandlerInterceptorAdapter {
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		rememberUser(request, response);
-		if(requestForResources(request)) {
-			return true;
-		}
-		if(handleSignOut(request, response)) {
-			return true;
-		}
-		if (SecurityContext.userSignedIn() || requestForSignIn(request)) {
-			return true;
-		} else {
-			return requireSignIn(request, response);
-		}
+//		if(requestForResources(request)) {
+//			return true;
+//		}
+//		if(handleSignOut(request, response)) {
+//			return true;
+//		}
+//		if(SecurityContext.userSignedIn() || requestForSignIn(request)) {
+//			return true;
+//		} else {
+//			return requireSignIn(request, response);
+//		}
+		return true;
 	}
 	
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {

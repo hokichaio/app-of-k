@@ -24,6 +24,7 @@ import app.of.k.dto.Friend;
 import app.of.k.dto.UserScore;
 import app.of.k.mapper.UserScoreServiceMapper;
 import app.of.k.service.FacebookService;
+import app.of.k.social.SecurityContext;
 
 @Controller
 public class HomeController {
@@ -49,16 +50,18 @@ public class HomeController {
 	@RequestMapping(value = "/")
 	public ModelAndView home(Model model) throws ParseException {
 
-		List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles(0, Integer.MAX_VALUE);
-		
-		
-		
-		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("bdayList", facebookService.getRecentBdayList(friends));
+		
+		if(SecurityContext.userSignedIn()) {
+			List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles(0, Integer.MAX_VALUE);
+			modelAndView.addObject("bdayList", facebookService.getRecentBdayList(friends));
+		}
+		
 		modelAndView.setViewName("main/home");
 		return modelAndView;
 	}
+	
+	
 	
 	
 }
