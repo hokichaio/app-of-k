@@ -7,129 +7,103 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>ボボGAME!</title>
-		<link type='text/css' href='<%= request.getContextPath() %>/resources/css/demo.css' rel='stylesheet' media='screen' />
-		<link type='text/css' href='<%= request.getContextPath() %>/resources/css/basic.css' rel='stylesheet' media='screen' />
-		<link type='text/css' href='<%= request.getContextPath() %>/resources/css/layout.css' rel='stylesheet' media='screen' />
-		<link type='text/css' href='<%= request.getContextPath() %>/resources/css/bar.css' rel='stylesheet' media='screen' />
-		<script language="javascript">AC_FL_RunContent = 0;</script>
+		<title>サプライズ！</title>
+		<link type='text/css' href='<%= request.getContextPath() %>/resources/css/demo.css' rel='stylesheet' />
+		<link type='text/css' href='<%= request.getContextPath() %>/resources/css/basic.css' rel='stylesheet' />
+		<link type='text/css' href='<%= request.getContextPath() %>/resources/css/bar.css' rel='stylesheet' />
+		<link type='text/css' href='<%= request.getContextPath() %>/resources/bootstrap/css/bootstrap.min.css' rel='stylesheet' />
+		<link type='text/css' href='<%= request.getContextPath() %>/resources/bootstrap/css/bootstrap-reponsive.min.css' rel='stylesheet' />
 		<script type='text/javascript' src='<%= request.getContextPath() %>/resources/js/jquery-1.7.min.js'></script>
 		<script type='text/javascript' src='<%= request.getContextPath() %>/resources/js/jquery.simplemodal.js'></script>
-		<script type='text/javascript' src='<%= request.getContextPath() %>/resources/js/basic.js'></script>
-		<script src="<%= request.getContextPath() %>/resources/game/AC_RunActiveContent.js" language="javascript"></script>
-		<script>
-		$(function() {
-			$(".meter > span").each(function() {
-				$(this)
-					.data("origWidth", $(this).width())
-					.width(0)
-					.animate({
-						width: $(this).data("origWidth")
-					}, 1200);
-			});
-		});
-		</script>
-		<script type="text/javascript">
-			function finish(score){
-				
-				var dataString = 'score='+ score;  
-				//alert (dataString);return false;  
-				$.ajax({  
-				  type: "POST",  
-				  url: "./send-score",  
-				  data: dataString,  
-				}); 
-				$('#basic-modal-content').modal();
-				return false;  
-			}
-		</script>
+		<script type='text/javascript' src='<%= request.getContextPath() %>/resources/bootstrap/js/bootstrap.min.js'></script>
 	</head>
 	<body>
-	<div id="wrapper">
-		<div style="float:left;">
-			我的波波愛心：${user.score}
-		</div>
-		<div style="text-align:right"><a href="<c:url value="/signout" />">Sign Out</a></div>
-			
-			
-			<c:if test="${heart<20}">
-				<div class="meter red animate" >
-					<span style="width: <c:out value="${heart}"/>%"><span style="text-align:center; color:white;">波波心情指數:<c:out value="${heart}"/></span></span>
+	<div class="container">
+	<h1>Welcome to nonstop</h1>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#1" data-toggle="tab">ログイン</a>
+		</li>
+		<li>
+			<a href="#2" data-toggle="tab">新規登録</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="1">
+			<div class="row">
+			<%= form_tag({:controller =>'main', :action =>'login'}) do %>
+				<div class="span12">
+					<div style="width:100px; float:left;">
+						メールアドレス
+					</div>
+					<%= text_field_tag :email %>
 				</div>
-			</c:if>
-			<c:if test="${heart>=20 && heart<60}">
-				<div class="meter orange animate" >
-					<span style="width: <c:out value="${heart}"/>%"><span style="text-align:center; color:white;">波波心情指數:<c:out value="${heart}"/></span></span>
+				<div class="span12">
+					<div style="width:100px; float:left;">
+						パスワード
+					</div>
+					<%= password_field_tag :password %>
 				</div>
-			</c:if>
-			<c:if test="${heart>=60 && heart<100}">
-				<div class="meter animate" >
-					<span style="width: <c:out value="${heart}"/>%"><span style="text-align:center; color:white;">波波心情指數:<c:out value="${heart}"/></span></span>
+				<div class="span12" style="margin-top: 10px" >
+					<%= submit_tag value="登録する", :class=>"btn btn-primary"%>
 				</div>
-			</c:if>
-			<c:if test="${heart>100}">
-				<div class="meter animate" >
-					<span style="width: 100%"><span style="text-align:center; color:white;">波波心情指數:<c:out value="${heart}"/></span></span>
-				</div>
-			</c:if>
-		
-		<div class="areaLeft">
-			<h3>ランキング</h3>
-			<ul>
-			<c:forEach items="${ranking}" var="ranking">
-				<li><img src="http://graph.facebook.com/<c:out value="${ranking.id}"/>/picture" align="middle"/>
-				<br/><c:out value="${ranking.score}"/> Hearts!</li><br/>
-			</c:forEach>
-			</ul>
-		</div>
-		<div class="areaRight">
-			<!-- saved from url=(0013)about:internet -->
-			<script language="javascript">
-				if (AC_FL_RunContent == 0) {
-					alert("AC Failed!");
-				} else {
-					AC_FL_RunContent(
-						'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0',
-						'width', '450',
-						'height', '350',
-						'src', 'water',
-						'quality', 'high',
-						'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
-						'align', 'middle',
-						'play', 'true',
-						'loop', 'true',
-						'scale', 'showall',
-						'wmode', 'transparent',
-						'devicefont', 'false',
-						'id', 'water',
-						'bgcolor', '#ffffff',
-						'name', 'water',
-						'menu', 'true',
-						'allowFullScreen', 'false',
-						'allowScriptAccess','always',
-						'movie', 'http://hoki.syuon.com/flash/water',
-						'salign', ''
-						); //end AC code
-				}
-			</script>
-		</div>
-		<div id="footer">
-		
-			<div id='basic-modal'>
-				<a href='#' class='basic'>Post On Your Wall!!</a>
+			<% end %>
 			</div>
-				
-			<!-- modal content -->
-			<div id="basic-modal-content">
-				<h3>Share With Your Frineds</h3>
-				<iframe id="iframe" width="100%" height="150" scrolling="no" frameborder="0" src="./post-start"></iframe>
-				<p><a href='http://www.facebook.com/profile.php?id=100000090061241'>WHO THE HELL IS BOBO???</a></p>
+		</div>
+		<div class="tab-pane" id="2">
+			<%= form_for(@user_master) do |f| %>
+			<% if @user_master.errors.any? %>
+			<div class="alert alert-error">
+				<h2><%= pluralize(@user_master.errors.count, "error") %> prohibited this user_master from being saved:</h2>
+				<ul>
+					<% @user_master.errors.full_messages.each do |msg| %>
+					<li>
+						<%= msg %>
+					</li>
+					<% end %>
+				</ul>
 			</div>
+			<% end %>
+			<div class="row">
+				<div class="span12">
+					<div style="width:100px; float:left;">
+						ハンドルネーム
+					</div>
+					<%= f.text_field :name, :style=>"width:200px;" %>
+				</div>
+				<div class="span12">
+					<div style="width:100px; float:left;">
+						メールアドレス
+					</div>
+					<%= f.text_field :email, :style=>"width:200px;" %>
+				</div>
+				<div class="span12">
+					<div style="width:100px; float:left;">
+						パスワード
+					</div>
+					<%= f.password_field :password, :style=>"width:200px;" %>
+				</div>
+				<div class="span12">
+					<div style="width:100px; float:left;">
+						生年月日
+					</div>
+					<%= f.date_select :birthdate, {:start_year=>Time.now.year - 100, :end_year=>Time.now.year, :use_month_numbers=>true}, :style=>"width:70px;"%>
+				</div>
+				<div class="span12">
+					<div style="width:100px; float:left;">
+						性別
+					</div>
+					<%= f.radio_button :sex, 0 %>男性 <%= f.radio_button :sex, 1 %>女性
+				</div>
+				<div class="span12" style="margin-top: 10px" >
+					<%= f.submit value="登録する", :class=>"btn btn-primary"%>
+				</div>
+			</div>
+			<% end %>
 		</div>
 	</div>
-	<form action="./send-score" method="post" id="sends">
-		<input type="hidden" name="score" id="score" value="" />
-	</form>
-	<form></form>
+</div>
+</div> 
+	
 	</body>
 </html>
