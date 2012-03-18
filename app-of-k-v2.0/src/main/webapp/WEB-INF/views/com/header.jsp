@@ -3,6 +3,7 @@
          pageEncoding="UTF-8"
          contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="app.of.k.social.SecurityContext" %>
 
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -12,22 +13,27 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="#">サプライズ</a>
+			<a class="brand" href="./">Surprise!</a>
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li class="active"><a href="#">Home</a></li>
+					<li><a href="./gift">Find a gift</a></li>
 					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="#contact">FAQ</a></li>
+				</ul>
+				<ul class="nav pull-right">
+					<c:if test="<%= !SecurityContext.userSignedIn() %>">
+						<form class="navbar-form pull-right" name="login" id="login" action="<c:url value="/signin/facebook" />" method="POST">
+				 			<input type="hidden" name="scope" value="email,publish_stream,offline_access,friends_birthday" />		    
+							<ul class="nav pull-right">
+								<li><a href="javascript:void(0);" onclick="document.login.submit(); return false;" >Sign In</a></li>
+							</ul>
+						</form>
+					</c:if>
+					<c:if test="<%= SecurityContext.userSignedIn() %>">
+						<li><a href="<c:url value="/signout" />">Sign Out</a></li>
+					</c:if>
 				</ul>
 			</div>
-			<div class="nav-collapse">
-				<ul class="nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
 		</div>
 	</div>
 </div>

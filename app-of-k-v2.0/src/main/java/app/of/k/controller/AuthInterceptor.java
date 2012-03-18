@@ -41,6 +41,12 @@ final public class AuthInterceptor extends HandlerInterceptorAdapter {
 //		} else {
 //			return requireSignIn(request, response);
 //		}
+		if (SecurityContext.userSignedIn() && request.getServletPath().startsWith("/signout")) {
+			connectionRepository.createConnectionRepository(SecurityContext.getCurrentUser().getId()).removeConnections("facebook");
+			userCookieGenerator.removeCookie(response);
+			SecurityContext.remove();
+			new RedirectView("/", true).render(null, request, response);
+		}
 		return true;
 	}
 	
@@ -72,10 +78,10 @@ final public class AuthInterceptor extends HandlerInterceptorAdapter {
 	
 	private boolean handleSignOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (SecurityContext.userSignedIn() && request.getServletPath().startsWith("/signout")) {
-//			connectionRepository.createConnectionRepository(SecurityContext.getCurrentUser().getId()).removeConnections("facebook");
+			connectionRepository.createConnectionRepository(SecurityContext.getCurrentUser().getId()).removeConnections("facebook");
 			userCookieGenerator.removeCookie(response);
 			SecurityContext.remove();
-//			new RedirectView("/signout", true).render(null, request, response);
+			new RedirectView("/", true).render(null, request, response);
 			return true;
 		}
 		return false;

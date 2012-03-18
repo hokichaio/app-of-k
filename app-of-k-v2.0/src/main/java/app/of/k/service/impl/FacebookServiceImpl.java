@@ -7,9 +7,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.inject.Inject;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.stereotype.Service;
 
+import app.of.k.dto.Send;
 import app.of.k.service.FacebookService;
 
 @Service("FacebookService")
@@ -19,6 +24,29 @@ public class FacebookServiceImpl implements FacebookService {
 	
 	private static final int DAYS_IN_MILLISECOND = 1000*60*60*24*DAYS;
 
+	private final Facebook facebook;
+	
+	@Inject
+	public FacebookServiceImpl(Facebook facebook) {
+		this.facebook = facebook;
+	}
+	
+	public Send buildSendForm() {
+		
+		FacebookProfile myProfile = facebook.userOperations().getUserProfile();
+		Send sendForm = new Send();
+		sendForm.setSenderMainId(myProfile.getId());
+		sendForm.setSenderMainName(myProfile.getName());
+		
+		return sendForm;
+		
+	}
+	
+	@Cacheable("friendsCache")
+	public List<FacebookProfile> getFriends(String userId) {
+		return facebook.friendOperations().getFriendProfiles(0, Integer.MAX_VALUE);
+	}
+	
 	public List<FacebookProfile> getRecentBdayList(List<FacebookProfile> friends) throws ParseException {
 		
 		List<FacebookProfile> bdayList = new ArrayList<FacebookProfile>();
