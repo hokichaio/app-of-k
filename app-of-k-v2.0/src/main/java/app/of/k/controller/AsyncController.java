@@ -3,15 +3,14 @@ package app.of.k.controller;
 import java.text.ParseException;
 import java.util.List;
 
-import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import app.of.k.service.FacebookService;
@@ -26,20 +25,16 @@ public class AsyncController {
 	@Autowired
 	private FacebookService facebookService;
 	
-	private final Facebook facebook;
-	
-	@Inject
-	public AsyncController(Facebook facebook) {
-		this.facebook = facebook;
-	}
-
 	@RequestMapping(value = "/facebook")
-	public ModelAndView friends(Model model) throws ParseException {
+	public ModelAndView friends(@RequestParam("to") String to, Model model) throws ParseException {
 
 		ModelAndView modelAndView = new ModelAndView();
 		
 		if(SecurityContext.userSignedIn()) {
-			modelAndView.addObject("friends", facebookService.getFriends(SecurityContext.getCurrentUser().getId()));
+			List<FacebookProfile> friends = facebookService.getFriends(SecurityContext.getCurrentUser().getId());
+			modelAndView.addObject("friends", friends);
+			modelAndView.addObject("birthday", facebookService.getRecentBdayList(friends));
+			modelAndView.addObject("to" , to);
 			modelAndView.setViewName("async/friends");
 			return modelAndView;
 		}

@@ -14,6 +14,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.stereotype.Service;
 
+import app.of.k.dto.Pay;
 import app.of.k.dto.Send;
 import app.of.k.service.FacebookService;
 
@@ -73,4 +74,31 @@ public class FacebookServiceImpl implements FacebookService {
 		
 	}
 	
+	public FacebookProfile getProfileById(String id) {
+		return facebook.userOperations().getUserProfile(id);
+	}
+	
+	public void initPayList(Send sendForm) {
+		List<String> senderList = sendForm.getSenderList();
+		List<Pay> payList = new ArrayList<Pay>();
+		String senderMainId = sendForm.getSenderMainId();
+		if(senderMainId != null) {
+			Pay payInfo = new Pay();
+			payInfo.setId(senderMainId);
+			payInfo.setPayment(0);
+			payInfo.setName(getProfileById(senderMainId).getName());
+			payList.add(payInfo);
+		}
+		for (String id : senderList) {
+			if(id != null) {
+				Pay payInfo = new Pay();
+				payInfo.setId(id);
+				payInfo.setPayment(0);
+				payInfo.setName(getProfileById(id).getName());
+				payList.add(payInfo);
+			}
+		}
+		sendForm.setPayList(payList);
+	}
+
 }

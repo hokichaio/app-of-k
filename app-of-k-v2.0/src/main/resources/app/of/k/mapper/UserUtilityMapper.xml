@@ -14,4 +14,9 @@
 		SELECT userId FROM userconnection where providerUserId = #{pid};
 	</select>
 	
+	<select id="getUserFacebookIdByUserId" parameterType="String" resultType="String">
+		SELECT providerUserId FROM userconnection where userId = #{userId};
+	</select>
+	
+	
 </mapper>

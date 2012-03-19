@@ -1,9 +1,11 @@
 package app.of.k.dto;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Send {
+
+	private Gift gift;
 	
 	private Long seqId;
 	
@@ -17,9 +19,11 @@ public class Send {
 	
 	private String receiverAddress;
 	
-	private Map<String, String> senderList = new LinkedHashMap<String, String>();
+	private List<String> senderList = new ArrayList<String>();
 	
-	private Map<String, Integer> payList = new LinkedHashMap<String, Integer>();
+	private List<Pay> payList;
+	
+	private Integer tempPayment;
 	
 	private String giftId;
 	
@@ -75,19 +79,11 @@ public class Send {
 		this.receiverAddress = receiverAddress;
 	}
 
-	public Map<String, String> getSenderList() {
-		return senderList;
-	}
-
-	public void setSenderList(Map<String, String> senderList) {
-		this.senderList = senderList;
-	}
-
-	public Map<String, Integer> getPayList() {
+	public List<Pay> getPayList() {
 		return payList;
 	}
 
-	public void setPayList(Map<String, Integer> payList) {
+	public void setPayList(List<Pay> payList) {
 		this.payList = payList;
 	}
 
@@ -115,5 +111,52 @@ public class Send {
 		this.noSponsor = noSponsor;
 	}
 	
+	public List<String> getSenderList() {
+		return senderList;
+	}
+
+	public void setSenderList(List<String> senderList) {
+		this.senderList = senderList;
+	}
 	
+	public Gift getGift() {
+		return gift;
+	}
+
+	public void setGift(Gift gift) {
+		this.gift = gift;
+	}
+
+	public Integer getTempPayment() {
+		return tempPayment;
+	}
+
+	public void setTempPayment(Integer tempPayment) {
+		this.tempPayment = tempPayment;
+	}
+	
+	public void setCurrentUserPayment(String currentUserId) {
+		for(Pay payer : payList) {
+			if(payer.getId().equals(currentUserId)) {
+				payer.setPayment(payer.getPayment() + tempPayment);
+				tempPayment = null;
+				return;
+			}
+		}
+	}
+	
+	public Integer getRemainingBill() {
+		Integer remainingBill;
+		if(this.gift != null) {
+			remainingBill = gift.getPrice();
+		} else {
+			return null;
+		}
+		for(Pay payer : payList) {
+			if(payer.getPayment() != null) {
+				remainingBill -= payer.getPayment();
+			}
+		}
+		return remainingBill;
+	}
 }

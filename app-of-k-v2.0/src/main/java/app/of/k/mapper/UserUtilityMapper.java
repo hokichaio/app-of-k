@@ -7,5 +7,7 @@ public interface UserUtilityMapper {
 	public String getSequenceId();
 	
 	public String getUserIdByProviderUserId(String pid);
+	
+	public String getUserFacebookIdByUserId(String userId);
 
 }

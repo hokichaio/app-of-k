@@ -14,6 +14,8 @@ import app.of.k.dto.Gift;
 import app.of.k.dto.Send;
 import app.of.k.service.FacebookService;
 import app.of.k.service.GiftService;
+import app.of.k.service.UserUtilityService;
+import app.of.k.social.SecurityContext;
 
 @Controller
 public class HomeController {
@@ -24,11 +26,13 @@ public class HomeController {
 	private GiftService giftService;
 	
 	@Autowired
+	private UserUtilityService userUtilityService;
+	
+	@Autowired
 	private FacebookService facebookService;
 	
 	@RequestMapping(value = "/")
 	public ModelAndView home(Model model) throws ParseException {
-
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("main/top");
 		return modelAndView;
@@ -67,6 +71,30 @@ public class HomeController {
 		modelAndView.setViewName("main/sendp1");
 		return modelAndView;
 		
+	}
+	
+	@RequestMapping(value = "/sendp2")
+	public ModelAndView sendP2(Send sendForm) {
+		facebookService.initPayList(sendForm);
+		sendForm.setGift(giftService.getGift(sendForm.getGiftId()));
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("userFbId", userUtilityService.getUserFacebookIdByUserId(SecurityContext.getCurrentUser().getId()));
+		modelAndView.addObject("sendForm", sendForm);
+		modelAndView.setViewName("main/sendp2");
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping(value = "/sendp3", params = "pay")
+	public ModelAndView sendP3(Send sendForm) {
+		String currentUserId = userUtilityService.getUserFacebookIdByUserId(SecurityContext.getCurrentUser().getId());
+		sendForm.setCurrentUserPayment(currentUserId);
+		sendForm.setGift(giftService.getGift(sendForm.getGiftId()));
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("userFbId", userUtilityService.getUserFacebookIdByUserId(SecurityContext.getCurrentUser().getId()));
+		modelAndView.addObject("sendForm", sendForm);
+		modelAndView.setViewName("main/sendp2");
+		return modelAndView;
 	}
 	
 	

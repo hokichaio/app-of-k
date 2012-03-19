@@ -25,11 +25,11 @@
 					<p>${gift.description}</p>
 					
 				</div>
-				<form:form modelAttribute="sendForm" name="sendForm" action="./sendp1" method="post">
+				<form:form id="sendForm" modelAttribute="sendForm" name="sendForm" action="./sendp1" method="post">
 				    <legend>Choose a friend</legend>
 				    <img id="loading" src="<%= request.getContextPath() %>/resources/img/com/loading.gif" width="25" height="25" />
 				    <img id="receiver_image_icon" style="visibility:hidden;" src="<%= request.getContextPath() %>/resources/img/com/no_profile_pic.gif" width="50" height="50" /> 
-				    <input id="friend_input" style="visibility:hidden;" type="text" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" />
+				    <input id="friend_input" style="visibility:hidden;" type="text" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" placeholder="type a name..." />
 				    <span id="sign_in_msg" style="display:none;" >Please sign in</span>
 				    <form:input id="receiverId" path="receiverId" type="hidden" />
 				    <form:input id="receiverName" path="receiverName" type="hidden" />
@@ -47,7 +47,7 @@
 	  if(<%= SecurityContext.userSignedIn() %>) {
 		  $.ajax({
 			  type: "GET",
-			  url: "./friends/facebook",
+			  url: "./friends/facebook?to=receiver",
 			  dataType: "script"
 			});
 	  } else {
@@ -56,6 +56,12 @@
 		  $("#loading").css("display","none");
 	  }
   });
+  function setReceiver(id,name) {
+		$("#receiverId").val( id );
+		$("#receiverName").val( name );
+		$("#receiver_image_icon").attr("src", "https://graph.facebook.com/" + id + "/picture" );
+		$("#friend_input").val( name );
+	};
 </script>
 </body>
 </html>

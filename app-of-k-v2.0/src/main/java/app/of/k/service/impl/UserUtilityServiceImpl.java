@@ -22,6 +22,11 @@ public class UserUtilityServiceImpl implements UserUtilityService {
 	public String getUserIdByProviderUserId(String pid) {
 		return userUtilityMapper.getUserIdByProviderUserId(pid);
 	}
+
+	@Override
+	public String getUserFacebookIdByUserId(String userId) {
+		return userUtilityMapper.getUserFacebookIdByUserId(userId);
+	}
 	
 
 }

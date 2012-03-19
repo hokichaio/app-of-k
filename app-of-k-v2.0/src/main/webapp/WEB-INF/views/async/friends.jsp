@@ -21,10 +21,17 @@ $(function(){
 	      source: friends,
 	      minLength: 1,
 	      select: function( event, ui ) {
-	        $("#receiverId").val( ui.item.id );
-	        $("#receiverName").val( ui.item.value );
-	        $("#receiver_image_icon").attr("src", ui.item.image_path );
-	        $("#friend_input").val( ui.item.label );
+	      	<c:if test="${to.equals('receiver')}">
+		        $("#receiverId").val( ui.item.id );
+		        $("#receiverName").val( ui.item.value );
+		        $("#receiver_image_icon").attr("src", ui.item.image_path );
+		        $("#friend_input").val( ui.item.label );
+	        </c:if>
+	        <c:if test="${to.equals('sender')}">
+	        	addSender(ui.item.id,ui.item.value,ui.item.image_path);
+	        	$("#friend_input").val("");
+	        </c:if>
+	        
 	        $("#send_submit").css("visibility","visible");
 	        return false;
 	      }
@@ -51,11 +58,26 @@ $(function(){
 	    var id = array[0];
 	    var name = array[1];
 	    var src = $(this).attr("src");
-
-	    $("#receiverId").val( id );
-	    $("#receiverName").val( name );
-	    $("#receiver_image_icon").attr("src", src );
-	    $("#friend_input").val( name );
+		<c:if test="${to.equals('receiver')}">
+		    $("#receiverId").val( id );
+		    $("#receiverName").val( name );
+		    $("#receiver_image_icon").attr("src", src );
+		    $("#friend_input").val( name );
+	    </c:if>
+	    <c:if test="${to.equals('sender')}">
+	    	addSender(id,name,src);
+	    	$("#friend_input").val("");
+	    </c:if>
+	    
 	    $("#send_submit").css("visibility","visible");
 	});
+	<c:if test="${to.equals('receiver')}">
+	$(function() {
+		 $("#sendForm").append("<br/><br/><h4>Upcoming birthday</h4>");
+		 <c:forEach var="b" items="${birthday}" >
+			 $("#sendForm").append('<div id="bday_box"><a href="javascript:void(0);" onclick="setReceiver(${b.id},\'${b.name}\')"><img src="https://graph.facebook.com/${b.id}/picture" /></a><p>${b.name}</p><p>${b.birthday}</p></div>');
+		 </c:forEach>
+		 $("#send_submit").css("visibility","visible");
+	});
+	</c:if>
 });

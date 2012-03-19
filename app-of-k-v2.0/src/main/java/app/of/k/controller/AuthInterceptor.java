@@ -3,11 +3,13 @@ package app.of.k.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
+import app.of.k.service.UserUtilityService;
 import app.of.k.social.SecurityContext;
 import app.of.k.social.User;
 import app.of.k.util.UserCookieGenerator;
@@ -23,7 +25,7 @@ final public class AuthInterceptor extends HandlerInterceptorAdapter {
 	private final UsersConnectionRepository connectionRepository;
 	
 	private final UserCookieGenerator userCookieGenerator = new UserCookieGenerator();
-
+	
 	public AuthInterceptor(UsersConnectionRepository connectionRepository) {
 		this.connectionRepository = connectionRepository;
 	}

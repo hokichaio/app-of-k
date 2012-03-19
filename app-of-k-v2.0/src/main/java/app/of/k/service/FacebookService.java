@@ -15,4 +15,8 @@ public interface FacebookService {
 	
 	public List<FacebookProfile> getFriends(String userId);
 	
+	public FacebookProfile getProfileById(String id);
+	
+	public void initPayList(Send sendForm);
+	
 }

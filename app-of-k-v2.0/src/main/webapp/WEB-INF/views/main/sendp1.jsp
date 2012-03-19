@@ -20,7 +20,7 @@
 				<div id="gift_detail">
 					<img src="./resources/img/gift/${sendForm.giftId}_main.jpg" />
 				</div>
-				<form:form class="form-horizontal" modelAttribute="sendForm" name="sendForm" action="./sendp1" method="post">
+				<form:form class="form-horizontal" modelAttribute="sendForm" name="sendForm" action="./sendp2" method="post">
 				    <fieldset>
 					    <legend>Fill the rest info</legend>
 					    <div class="control-group">
@@ -53,6 +53,12 @@
 								<textarea id="messageToSponsor" class="input-xlarge" rows="5" placeholder="Write a message to your sponsor..."></textarea>
 							</div>
 						</div>
+					    
+					    <p>Sponsor List</p>
+					   		<span id="sponsorAnchor"><span id="sponsorList"></span></span>
+					    <p>*Click to remove</p>
+					    
+					    <form:input path="giftId" type="hidden" />
 					    <form:input id="receiverId" path="receiverId" type="hidden" />
 					    <form:input id="receiverName" path="receiverName" type="hidden" />
 					    <form:input id="senderMainId" path="senderMainId" type="hidden" />
@@ -67,11 +73,12 @@
 		</div>
 	</div>
 <script type="text/javascript">
+  var i=${sendForm.senderList.size()}; 
   $(function() {
 	  if(<%= SecurityContext.userSignedIn() %>) {
 		  $.ajax({
 			  type: "GET",
-			  url: "./friends/facebook",
+			  url: "./friends/facebook?to=sender",
 			  dataType: "script"
 			});
 	  } else {
@@ -92,12 +99,25 @@
 			if($(noSponsor).is(':checked')) {
 				$("#friend_input").attr("disabled", "disabled" );
 				$("#messageToSponsor").attr("disabled", "disabled" );
+				$("#sponsorList").remove();
 			} else {
 				$("#friend_input").removeAttr("disabled");
 				$("#messageToSponsor").removeAttr("disabled");
+				$("#sponsorAnchor").append('<span id="sponsorList"></span>');
 			}
 	  });
-  });		  
+  });
+  function addSender(id,name,src) {
+	  $("#sponsorList").append($('<img onclick="removeSender(' + id + ')" id="i' + id + '" src="https://graph.facebook.com/' + id + '/picture"/>').hide().fadeIn(2000));
+	  $("#sponsorList").append("<input type='hidden' id='s" + id + "' value='" +  id + "' name='senderList[" + i + "]' />");
+	  
+	  i++;
+  };
+  function removeSender(id) {
+	  $("#i" + id).remove();
+	  $("#s" + id).remove();
+  };
+  
 </script>
 </body>
 </html>
